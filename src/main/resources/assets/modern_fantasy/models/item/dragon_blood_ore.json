@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "modern_fantasy:item/spirit_stone"
+    "layer0": "modern_fantasy:item/dragon_blood_ore"
   }
 }

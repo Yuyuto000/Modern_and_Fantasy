@@ -19,5 +19,7 @@
   "item.modern_fantasy.fairy_feathers": "妖精の羽根",
   "item.modern_fantasy.obsidian_magic_stone": "黒曜の魔石",
   "item.modern_fantasy.world_tree_sap": "世界樹の樹液",
-  "item.modern_fantasy.philosopher_stone_fragment": "賢者の石片"
+  "item.modern_fantasy.philosopher_stone_fragment": "賢者の石片",
+  "creativetab.modern_object_tab": "現代科学や現代家具のオブジェクト",
+  "creativetab.fantasy_object_tab": "魔法やファンタジーのオブジェクト"
 }

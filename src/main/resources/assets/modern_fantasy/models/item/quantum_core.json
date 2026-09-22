@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "modern_fantasy:item/carbon_fiber_bundles"
+    "layer0": "modern_fantasy:item/quantum_core"
   }
 }

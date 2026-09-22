@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "modern_fantasy:item/magicanium"
+    "layer0": "modern_fantasy:item/forged_allow_plate"
   }
 }

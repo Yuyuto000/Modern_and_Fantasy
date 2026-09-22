@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "modern_fantasy:item/star_silver_ore"
+    "layer0": "modern_fantasy:item/world_tree_sap"
   }
 }

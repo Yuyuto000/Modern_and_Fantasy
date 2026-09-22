@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "modern_fantasy:block/modern_chair"
+    },
+    "facing=east": {
+      "model": "modern_fantasy:block/modern_chair",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "modern_fantasy:block/modern_chair",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "modern_fantasy:block/modern_chair",
+      "y": 270
+    }
+  }
+}
