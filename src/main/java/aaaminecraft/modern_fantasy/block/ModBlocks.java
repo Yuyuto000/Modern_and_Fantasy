@@ -22,12 +22,8 @@ public class ModBlocks {
     // 現代家具
     public static final RegistryObject<Block> MODERN_CHAIR = registerBlock("modern_chair",
             () -> new ModernChairBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)));
-    public static final RegistryObject<Block> MODERN_DINING_TABLE_1_1 = registerBlock("modern_dining_table_1_1",
-            () -> new ModernDiningTableBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS), 1, 1));
-    public static final RegistryObject<Block> MODERN_DINING_TABLE_1_2 = registerBlock("modern_dining_table_1_1",
-            () -> new ModernDiningTableBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS), 1, 2));
-    public static final RegistryObject<Block> MODERN_DINING_TABLE_2_2 = registerBlock("modern_dining_table_1_1",
-            () -> new ModernDiningTableBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS), 2, 2));
+    public static final RegistryObject<Block> MODERN_DINING_TABLE = registerBlock("modern_dining_table",
+            () -> new ModernDiningTableBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)));
     public static final RegistryObject<Block> MODERN_SOFA = registerBlock("modern_sofa",
             () -> new ModernSofaBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)));
     public static final RegistryObject<Block> MODERN_SHELF = registerBlock("modern_shelf",

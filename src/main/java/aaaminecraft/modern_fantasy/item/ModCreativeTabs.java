@@ -33,9 +33,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.QUANTUM_COMPUTATION_CORE.get());
                         // Blocks
                         output.accept(ModBlocks.MODERN_CHAIR.get());
-                        output.accept(ModBlocks.MODERN_DINING_TABLE_1_1.get());
-                        output.accept(ModBlocks.MODERN_DINING_TABLE_1_2.get());
-                        output.accept(ModBlocks.MODERN_DINING_TABLE_2_2.get());
+                        output.accept(ModBlocks.MODERN_DINING_TABLE.get());
                         output.accept(ModBlocks.MODERN_SOFA.get());
                         output.accept(ModBlocks.MODERN_SHELF.get());
                         output.accept(ModBlocks.MODERN_STORAGE_CABINET.get());

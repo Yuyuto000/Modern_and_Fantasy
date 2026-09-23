@@ -1,0 +1,52 @@
+{
+  "variants": {
+
+    "facing=north,part=single": {
+      "model": "modern_fantasy:block/modern_dining_table_single"
+    },
+    "facing=east,part=single": {
+      "model": "modern_fantasy:block/modern_dining_table_single",
+      "y": 90
+    },
+    "facing=south,part=single": {
+      "model": "modern_fantasy:block/modern_dining_table_single",
+      "y": 180
+    },
+    "facing=west,part=single": {
+      "model": "modern_fantasy:block/modern_dining_table_single",
+      "y": 270
+    },
+
+    "facing=north,part=half": {
+      "model": "modern_fantasy:block/modern_dining_table_half"
+    },
+    "facing=east,part=half": {
+      "model": "modern_fantasy:block/modern_dining_table_half",
+      "y": 90
+    },
+    "facing=south,part=half": {
+      "model": "modern_fantasy:block/modern_dining_table_half",
+      "y": 180
+    },
+    "facing=west,part=half": {
+      "model": "modern_fantasy:block/modern_dining_table_half",
+      "y": 270
+    },
+
+    "facing=north,part=corner": {
+      "model": "modern_fantasy:block/modern_dining_table_corner"
+    },
+    "facing=east,part=corner": {
+      "model": "modern_fantasy:block/modern_dining_table_corner",
+      "y": 90
+    },
+    "facing=south,part=corner": {
+      "model": "modern_fantasy:block/modern_dining_table_corner",
+      "y": 180
+    },
+    "facing=west,part=corner": {
+      "model": "modern_fantasy:block/modern_dining_table_corner",
+      "y": 270
+    }
+  }
+}
