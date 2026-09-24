@@ -78,4 +78,6 @@ public class ModBlocks {
     public static void register(IEventBus bus) {
         BLOCKS.register(bus);
     }
+
+    // ここに書いちゃうけれど、Legend of FusionをこのMODか連携ストーリーMODに追加したい
 }
