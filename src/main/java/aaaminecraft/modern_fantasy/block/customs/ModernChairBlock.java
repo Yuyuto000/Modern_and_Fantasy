@@ -56,7 +56,7 @@ public class ModernChairBlock extends HorizontalDirectionalBlock {
             Block.box(0, 10, 3, 2, 12, 14),   // 左側
             Block.box(14, 10, 3, 16, 12, 14), // 右側
 
-// 座面
+            // 座面
             Block.box(2, 11, 1, 14, 12.5, 14),
 
             // 背もたれ：北側（Z=14～16）
@@ -79,6 +79,22 @@ public class ModernChairBlock extends HorizontalDirectionalBlock {
             case WEST  -> SHAPE_WEST;
             case NORTH, UP,DOWN -> SHAPE_NORTH;
         };
+    }
+
+    @Override
+    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (!level.isClientSide) {
+            // この椅子に座っているEntityを取得
+            for (SeatEntity seat : level.getEntitiesOfClass(
+                    SeatEntity.class,
+                    new AABB(pos)
+            )) {
+                // Entityを削除すると騎乗中のプレイヤーも降りる
+                seat.discard();
+            }
+        }
+
+        super.playerWillDestroy(level, pos, state, player);
     }
 
     /*
