@@ -15,16 +15,16 @@ public class ModCreativeTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MainEntrance.MODID);
 
     public static final RegistryObject<CreativeModeTab> MODERN_OBJECT_TABS = CREATIVE_MODE_TABS.register("modern_object_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.FORGED_ALLOW_PLATE.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.FORGED_ALLOY_PLATE.get()))
                     .title(Component.translatable("creativetab.modern_object_tab"))
                     .displayItems((parameters, output) -> {
                         // Materials
                         output.accept(ModItems.CARBON_FIBER_BUNDLES.get());
-                        output.accept(ModItems.REFINED_ALLOW_PLATE.get());
-                        output.accept(ModItems.FORGED_ALLOW_PLATE.get());
+                        output.accept(ModItems.REFINED_ALLOY_PLATE.get());
+                        output.accept(ModItems.FORGED_ALLOY_PLATE.get());
                         output.accept(ModItems.ELECTRONIC_CONTROL_BOARD.get());
                         output.accept(ModItems.SMALL_POWER_CELL.get());
-                        output.accept(ModItems.INDUSTRIAL_CENSOR.get());
+                        output.accept(ModItems.INDUSTRIAL_SENSOR.get());
                         output.accept(ModItems.HIGH_VOLTAGE_CAPACITOR.get());
                         output.accept(ModItems.CARBON_FIBER_BUNDLES.get());
                         output.accept(ModItems.PRECISION_MACHINED_PARTS.get());
@@ -63,7 +63,7 @@ public class ModCreativeTabs {
                         // Blocks
                         output.accept(ModBlocks.MAGIC_REACTOR.get());
                         output.accept(ModBlocks.MAGIC_CONDUIT.get());
-                        output.accept(ModBlocks.MAGIC_CRYSTAL.get());
+                        output.accept(ModBlocks.MAGICAL_POWER_CRYSTAL.get());
                         output.accept(ModBlocks.MAGIC_CIRCLE_STAND.get());
                         output.accept(ModBlocks.ALCHEMY_CAULDRON.get());
                         output.accept(ModBlocks.MAGIC_BOOK_SHELF.get());

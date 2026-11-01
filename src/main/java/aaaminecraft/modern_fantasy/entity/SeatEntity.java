@@ -36,16 +36,9 @@ public class SeatEntity extends Entity {
 
     @Override
     protected void positionRider(Entity passenger, MoveFunction moveFunction) {
-        if (passenger instanceof LivingEntity living) {
-
-            double y = this.getY() + 0.4D;
-
-            moveFunction.accept(
-                    passenger,
-                    this.getX(),
-                    y,
-                    this.getZ()
-            );
+        if (passenger instanceof LivingEntity) {
+            double y = this.getY() + 0.2D;
+            moveFunction.accept(passenger, this.getX(), y, this.getZ());
         }
     }
 

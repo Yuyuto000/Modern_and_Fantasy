@@ -12,48 +12,48 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, MainEntrance.MODID);
 
     // 現代アイテム系
-    public static final RegistryObject<Item> REFINED_ALLOW_PLATE = ITEMS.register("refined_allow_plate",
+    public static final RegistryObject<Item> REFINED_ALLOY_PLATE = ITEMS.register("refined_alloy_plate", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> FORGED_ALLOW_PLATE = ITEMS.register("forged_allow_plate",
+    public static final RegistryObject<Item> FORGED_ALLOY_PLATE = ITEMS.register("forged_alloy_plate", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> ELECTRONIC_CONTROL_BOARD = ITEMS.register("electronic_control_board",
+    public static final RegistryObject<Item> ELECTRONIC_CONTROL_BOARD = ITEMS.register("electronic_control_board", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> SMALL_POWER_CELL = ITEMS.register("small_power_cell",
+    public static final RegistryObject<Item> SMALL_POWER_CELL = ITEMS.register("small_power_cell", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> INDUSTRIAL_CENSOR = ITEMS.register("industrial_censor",
+    public static final RegistryObject<Item> INDUSTRIAL_SENSOR = ITEMS.register("industrial_sensor", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> HIGH_VOLTAGE_CAPACITOR = ITEMS.register("high_voltage_capacitor",
+    public static final RegistryObject<Item> HIGH_VOLTAGE_CAPACITOR = ITEMS.register("high_voltage_capacitor", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> CARBON_FIBER_BUNDLES = ITEMS.register("carbon_fiber_bundles",
+    public static final RegistryObject<Item> CARBON_FIBER_BUNDLES = ITEMS.register("carbon_fiber_bundles", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> PRECISION_MACHINED_PARTS = ITEMS.register("precision_machined_parts",
+    public static final RegistryObject<Item> PRECISION_MACHINED_PARTS = ITEMS.register("precision_machined_parts", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> REINFORCED_POLYMER = ITEMS.register("reinforced_polymer",
+    public static final RegistryObject<Item> REINFORCED_POLYMER = ITEMS.register("reinforced_polymer", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> GENERAL_PURPOSE_ELECTRIC_MOTORS = ITEMS.register("general_motors",
+    public static final RegistryObject<Item> GENERAL_PURPOSE_ELECTRIC_MOTORS = ITEMS.register("general_motors", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> QUANTUM_COMPUTATION_CORE = ITEMS.register("quantum_core",
+    public static final RegistryObject<Item> QUANTUM_COMPUTATION_CORE = ITEMS.register("quantum_core", //done
             () -> new Item(new Item.Properties()));
     // 魔術アイテム系
-    public static final RegistryObject<Item> MAGICANIUM =  ITEMS.register("magicanium",
+    public static final RegistryObject<Item> MAGICANIUM =  ITEMS.register("magicanium", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> SPIRIT_STONE = ITEMS.register("spirit_stone",
+    public static final RegistryObject<Item> SPIRIT_STONE = ITEMS.register("spirit_stone", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> DRAGON_BLOOD_ORE = ITEMS.register("dragon_blood_ore",
+    public static final RegistryObject<Item> DRAGON_BLOOD_ORE = ITEMS.register("dragon_blood_ore", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> MOONLIGHT_GRASS = ITEMS.register("moonlight_grass",
+    public static final RegistryObject<Item> MOONLIGHT_GRASS = ITEMS.register("moonlight_grass", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> STAR_SILVER_ORE = ITEMS.register("star_silver_ore",
+    public static final RegistryObject<Item> STAR_SILVER_ORE = ITEMS.register("star_silver_ore", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> MAGIC_CORE = ITEMS.register("magic_core",
+    public static final RegistryObject<Item> MAGIC_CORE = ITEMS.register("magic_core", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> FAIRY_FEATHERS = ITEMS.register("fairy_feathers",
+    public static final RegistryObject<Item> FAIRY_FEATHERS = ITEMS.register("fairy_feathers", //done
             ()  -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> OBSIDIAN_MAGIC_STONE = ITEMS.register("obsidian_magic_stone",
+    public static final RegistryObject<Item> OBSIDIAN_MAGIC_STONE = ITEMS.register("obsidian_magic_stone", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> WORLD_TREE_SAP = ITEMS.register("world_tree_sap",
+    public static final RegistryObject<Item> WORLD_TREE_SAP = ITEMS.register("world_tree_sap", //done
             () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> PHILOSOPHER_STONE_FRAGMENT = ITEMS.register("philosopher_stone_fragment",
+    public static final RegistryObject<Item> PHILOSOPHER_STONE_FRAGMENT = ITEMS.register("philosopher_stone_fragment", //done
             () -> new Item(new Item.Properties()));
     // 特殊素材
 

@@ -51,19 +51,19 @@ public class ModernChairBlock extends HorizontalDirectionalBlock {
             Block.box(14, 0, 0, 16, 12, 2),
 
             // 座面周辺フレーム
-            Block.box(2, 10, 0, 14, 12, 2), // 前
-            Block.box(2, 10, 14, 14, 12, 16), // 後ろ
-            Block.box(0, 9, 2, 2, 11, 14), // 左
-            Block.box(14, 11, 2, 16, 13, 14), // 右
+            Block.box(2, 10, 1, 14, 11, 3),   // 前側
+            Block.box(2, 11, 14, 14, 13, 16), // 後ろ側
+            Block.box(0, 10, 3, 2, 12, 14),   // 左側
+            Block.box(14, 10, 3, 16, 12, 14), // 右側
 
-            // 座面
-            Block.box(0, 11, 2, 14, 12, 14),
+// 座面
+            Block.box(2, 11, 1, 14, 12.5, 14),
 
-            // 背もたれ
-            Block.box(14, 12, 0, 16, 24, 2), // 左側の縦フレーム
-            Block.box(14, 12, 14, 16, 24, 16), // 右側の縦フレーム
-            Block.box(14, 24, 0, 16, 26, 16), // 上部フレーム
-            Block.box(14, 18, 2, 16, 22, 14) // 背もたれ中央
+            // 背もたれ：北側（Z=14～16）
+            Block.box(0, 12, 14, 2, 24, 16),
+            Block.box(14, 12, 14, 16, 24, 16),
+            Block.box(0, 24, 14, 16, 26, 16),
+            Block.box(2, 18, 14, 14, 22, 16)
     );
 
     // 4方向の形状
@@ -87,11 +87,10 @@ public class ModernChairBlock extends HorizontalDirectionalBlock {
      * AABBを一個ずつ取り出してX/Zを回転させて新しいVoxelShapeを生成するというもの。
      * AABB？俺は知らないね！ggrk((((((((殴
      */
-    private static VoxelShape rotateShape(VoxelShape shape, Direction rotation){
+    private static VoxelShape rotateShape(VoxelShape shape, Direction rotation) {
         VoxelShape result = Shapes.empty();
 
         for (AABB box : shape.toAabbs()) {
-
             double minX = box.minX;
             double minY = box.minY;
             double minZ = box.minZ;
@@ -99,43 +98,30 @@ public class ModernChairBlock extends HorizontalDirectionalBlock {
             double maxY = box.maxY;
             double maxZ = box.maxZ;
 
-            switch (rotation){
+            AABB rotated;
 
-                case EAST -> {
-                    double newMinZ = 1.0 - maxX;
-                    double newMaxZ = 1.0 - minX;
+            switch (rotation) {
+                case EAST -> rotated = new AABB(
+                        1.0 - maxZ, minY, minX,
+                        1.0 - minZ, maxY, maxX
+                );
 
-                    result = Shapes.or(
-                            result,
-                            Shapes.box(minZ, minY, newMinZ, maxZ, maxY, newMaxZ)
-                    );
-                }
+                case SOUTH -> rotated = new AABB(
+                        1.0 - maxX, minY, 1.0 - maxZ,
+                        1.0 - minX, maxY, 1.0 - minZ
+                );
 
-                case SOUTH -> {
-                    double newMinX = 1.0 - maxX;
-                    double newMaxX = 1.0 - minX;
-                    double newMinZ = 1.0 - maxZ;
-                    double newMaxZ = 1.0 - minZ;
+                case WEST -> rotated = new AABB(
+                        minZ, minY, 1.0 - maxX,
+                        maxZ, maxY, 1.0 - minX
+                );
 
-                    result = Shapes.or(
-                            result,
-                            Shapes.box(newMinX, minY, newMinZ, newMaxX, maxY, newMaxZ)
-                    );
-                }
-
-                case WEST -> {
-                    double newMinX = 1.0 - maxZ;
-                    double newMaxX = 1.0 - minZ;
-
-                    result = Shapes.or(
-                            result,
-                            Shapes.box(newMinX, minY, minX, newMaxX, maxY, maxX)
-                    );
-                }
-
-                case NORTH -> result = Shapes.or(result, boxToShape(box));
+                default -> rotated = box;
             }
+
+            result = Shapes.or(result, Shapes.create(rotated));
         }
+
         return result;
     }
 
@@ -177,7 +163,7 @@ public class ModernChairBlock extends HorizontalDirectionalBlock {
         );
 
         //座る位置
-        seat.setPos(pos.getX()+0.5D, pos.getY()+0.625D, pos.getZ()+0.5D);
+        seat.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
         level.addFreshEntity(seat);
         player.startRiding(seat);
         return InteractionResult.CONSUME;

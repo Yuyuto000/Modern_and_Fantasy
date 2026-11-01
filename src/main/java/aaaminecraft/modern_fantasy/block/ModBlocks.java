@@ -20,9 +20,9 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, MainEntrance.MODID);
 
     // 現代家具
-    public static final RegistryObject<Block> MODERN_CHAIR = registerBlock("modern_chair",
+    public static final RegistryObject<Block> MODERN_CHAIR = registerBlock("modern_chair", //done
             () -> new ModernChairBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)));
-    public static final RegistryObject<Block> MODERN_DINING_TABLE = registerBlock("modern_dining_table",
+    public static final RegistryObject<Block> MODERN_DINING_TABLE = registerBlock("modern_dining_table", //done
             () -> new ModernDiningTableBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)));
     public static final RegistryObject<Block> MODERN_SOFA = registerBlock("modern_sofa",
             () -> new ModernSofaBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)));
@@ -48,7 +48,7 @@ public class ModBlocks {
             () -> new MagicReactorBlock(BlockBehaviour.Properties.copy(Blocks.FURNACE))); // マジカニウム魔力炉
     public static final RegistryObject<Block> MAGIC_CONDUIT = registerBlock("magic_conduit",
             () -> new MagicConduitBlock(BlockBehaviour.Properties.copy(Blocks.STONE))); // マジカニウム魔力導管
-    public static final RegistryObject<Block> MAGIC_CRYSTAL = registerBlock("magic_crystal",
+    public static final RegistryObject<Block> MAGICAL_POWER_CRYSTAL = registerBlock("magical_power_crystal",
             () -> new MagiccrystalBlock(BlockBehaviour.Properties.copy(Blocks.AMETHYST_BLOCK))); // 魔力の結晶
     public static final RegistryObject<Block> MAGIC_CIRCLE_STAND = registerBlock("magic_circle_stand",
             () -> new MagicCircleStandBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
