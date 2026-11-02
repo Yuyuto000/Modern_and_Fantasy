@@ -3,6 +3,9 @@ package aaaminecraft.modern_fantasy.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,8 +18,23 @@ public class SeatEntity extends Entity {
         super(entityType, level);
     }
 
+    private static final EntityDataAccessor<Float> SIT_HEIGHT =
+            SynchedEntityData.defineId(
+                    SeatEntity.class,
+                    EntityDataSerializers.FLOAT
+            );
+
+    public void setSitHeight(double height) {
+        this.entityData.set(SIT_HEIGHT, (float) height);
+    }
+
+    public double getSitHeight() {
+        return this.entityData.get(SIT_HEIGHT);
+    }
+
     @Override
     protected void defineSynchedData() {
+        this.entityData.define(SIT_HEIGHT, 0.2F);
     }
 
     @Override
@@ -40,7 +58,8 @@ public class SeatEntity extends Entity {
     @Override
     protected void positionRider(Entity passenger, MoveFunction moveFunction) {
         if (passenger instanceof LivingEntity) {
-            double y = this.getY() + 0.2D;
+            double y = this.getY() + this.getSitHeight();
+
             moveFunction.accept(passenger, this.getX(), y, this.getZ());
         }
     }

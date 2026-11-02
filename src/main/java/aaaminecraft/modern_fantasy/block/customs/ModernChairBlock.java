@@ -21,6 +21,14 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ModernChairBlock extends HorizontalDirectionalBlock {
+
+    // 座る高さ（ブロック下端からの相対値）
+    private static final double CHAIR_SIT_HEIGHT = 0.2D;
+
+    // 座る位置の前後左右オフセット
+    private static final double CHAIR_SIT_OFFSET_X = 0.0D;
+    private static final double CHAIR_SIT_OFFSET_Z = 0.0D;
+
     // コンストラクタ
     public ModernChairBlock(Properties properties) {
         super(properties);
@@ -141,47 +149,29 @@ public class ModernChairBlock extends HorizontalDirectionalBlock {
         return result;
     }
 
-    private static VoxelShape boxToShape(AABB box) {
-        return Shapes.box(box.minX,
-                box.minY,
-                box.minZ,
-                box.maxX,
-                box.maxY,
-                box.maxZ);
-    }
-
     // インタラクション処理
     @Override
-    public InteractionResult use(
-            BlockState state,
-            Level level,
-            BlockPos pos,
-            Player player,
-            InteractionHand hand,
-            BlockHitResult hit
-    ) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
 
+        // ModernSofaBlock.createSeat(level, pos, player)メソッドと同じ箇所
+        // ======================================================
         // 誰かー座ってるかー
-        if (!level.getEntitiesOfClass(
-                SeatEntity.class,
-                new AABB(pos)
-        ).isEmpty()) {
+        if (!level.getEntitiesOfClass(SeatEntity.class, new AABB(pos)).isEmpty()) {
             return InteractionResult.PASS;
         }
 
         // 座面Entity、仕事だ、出ろ
-        SeatEntity seat = new SeatEntity(
-                ModEntities.SEAT.get(),
-                level
-        );
+        SeatEntity seat = new SeatEntity(ModEntities.SEAT.get(), level);
 
         //座る位置
-        seat.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+        seat.setPos(pos.getX() + 0.5D + CHAIR_SIT_OFFSET_X, pos.getY(), pos.getZ() + 0.5D + CHAIR_SIT_OFFSET_Z);
+        seat.setSitHeight(CHAIR_SIT_HEIGHT);
         level.addFreshEntity(seat);
         player.startRiding(seat);
+        // ======================================================
         return InteractionResult.CONSUME;
     }
 }

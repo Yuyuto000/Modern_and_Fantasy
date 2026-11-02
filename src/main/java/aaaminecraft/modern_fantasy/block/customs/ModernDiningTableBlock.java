@@ -1,6 +1,6 @@
 package aaaminecraft.modern_fantasy.block.customs;
 
-import aaaminecraft.modern_fantasy.block.processing.TablePart;
+import aaaminecraft.modern_fantasy.block.blockstate.TablePart;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;

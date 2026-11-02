@@ -1,4 +1,4 @@
-package aaaminecraft.modern_fantasy.block.processing;
+package aaaminecraft.modern_fantasy.block.blockstate;
 
 import net.minecraft.util.StringRepresentable;
 
