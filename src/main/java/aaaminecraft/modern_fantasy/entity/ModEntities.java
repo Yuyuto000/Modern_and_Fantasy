@@ -20,6 +20,15 @@ public class ModEntities {
                             .updateInterval(1)
                             .build("seat"));
 
+    public static final RegistryObject<EntityType<SofaEntity>> SOFA =
+            ENTITIES.register("sofa",
+                    () -> EntityType.Builder
+                            .of(SofaEntity::new, MobCategory.MISC)
+                            .sized(0.8F, 0.5F)
+                            .clientTrackingRange(10)
+                            .updateInterval(1)
+                            .build("sofa"));
+
     public static void register(IEventBus bus) {
         ENTITIES.register(bus);
     }

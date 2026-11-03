@@ -17,12 +17,10 @@ import net.minecraftforge.fml.common.Mod;
 public class ClientModEvents {
 
     @SubscribeEvent
-    public static void registerRenderers(
-            EntityRenderersEvent.RegisterRenderers event
-    ) {
-        event.registerEntityRenderer(
-                ModEntities.SEAT.get(),
-                NoopRenderer::new
-        );
+    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        // 着席椅子
+        event.registerEntityRenderer(ModEntities.SEAT.get(), NoopRenderer::new);
+        // ベッド系
+        event.registerEntityRenderer(ModEntities.SOFA.get(), NoopRenderer::new);
     }
 }

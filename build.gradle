@@ -28,6 +28,14 @@ java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
+jar {
+    manifest {
+        attributes([
+                "MixinConfigs": "modern_fantasy.mixins.json"
+        ])
+    }
+}
+
 minecraft {
     // The mappings can be changed at any time and must be in the following format.
     // Channel:   Version:

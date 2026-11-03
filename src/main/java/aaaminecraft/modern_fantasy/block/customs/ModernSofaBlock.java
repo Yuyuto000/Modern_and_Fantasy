@@ -3,6 +3,8 @@ package aaaminecraft.modern_fantasy.block.customs;
 import aaaminecraft.modern_fantasy.block.blockstate.SofaPart;
 import aaaminecraft.modern_fantasy.entity.ModEntities;
 import aaaminecraft.modern_fantasy.entity.SeatEntity;
+import aaaminecraft.modern_fantasy.entity.SofaEntity;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -24,6 +26,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.Vec3;
+import org.slf4j.Logger;
 
 public class ModernSofaBlock extends HorizontalDirectionalBlock {
 
@@ -34,7 +38,12 @@ public class ModernSofaBlock extends HorizontalDirectionalBlock {
     private static final double SOFA_SIT_OFFSET_X = 0.0D;
     private static final double SOFA_SIT_OFFSET_Z = 0.0D;
 
+    // 寝転がり時の高さ
+    private static final double SOFA_SLEEP_HEIGHT = 0.55D;
+
     public static final EnumProperty<SofaPart> PART = EnumProperty.create("part", SofaPart.class);
+    private static final Logger log = LogUtils.getLogger();
+
     public ModernSofaBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any()
@@ -249,42 +258,23 @@ public class ModernSofaBlock extends HorizontalDirectionalBlock {
 
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!level.isClientSide()){
-            for (SeatEntity seat : level.getEntitiesOfClass(SeatEntity.class, new AABB(pos))) {
+        if (!level.isClientSide) {
+
+            // 通常着席Entityを削除
+            for (SeatEntity seat : level.getEntitiesOfClass(
+                    SeatEntity.class,
+                    new AABB(pos)
+            )) {
                 seat.discard();
+            }
+
+            // このブロックを占有している寝転がりEntityを削除
+            for (SofaEntity sofa : level.getEntitiesOfClass(SofaEntity.class, new AABB(pos).inflate(1.0D), entity -> entity.occupies(pos))) {
+                sofa.discard();
             }
         }
 
         super.playerWillDestroy(level, pos, state, player);
-    }
-
-    @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit){
-        if (hand != InteractionHand.MAIN_HAND){
-            return InteractionResult.PASS;
-        }
-
-        if (level.isClientSide){
-            return InteractionResult.SUCCESS;
-        }
-
-        // 使用中の座席はPASS
-        if (hasSeat(level, pos)){
-            return InteractionResult.PASS;
-        }
-
-        if (!player.isCrouching()){
-            createSeat(level, pos, player);
-            return InteractionResult.CONSUME;
-        }
-
-        //寝ころび
-        if (hasTwoAdjacentEmptySeats(level, pos, state)) {
-            // TODO:寝ころび用Entityの実装
-            return InteractionResult.CONSUME;
-        }
-
-        return  InteractionResult.PASS;
     }
 
     private boolean hasTwoAdjacentEmptySeats(Level level, BlockPos pos, BlockState state){
@@ -297,5 +287,141 @@ public class ModernSofaBlock extends HorizontalDirectionalBlock {
 
     private boolean isEmptySofa(Level level, BlockPos pos){
         return isSofa(level, pos) && !hasSeat(level, pos);
+    }
+
+    // SofaEntityが指定ブロックを占有しているか
+    private boolean hasSofaEntity(Level level, BlockPos pos) {
+        return !level.getEntitiesOfClass(SofaEntity.class, new AABB(pos).inflate(1.0D), entity -> entity.occupies(pos)).isEmpty();
+    }
+
+    // 寝転がり可能なソファパーツか
+    private boolean isValidSleepPart(BlockState state) {
+        SofaPart part = state.getValue(PART);
+        return part == SofaPart.HALF_LEFT || part == SofaPart.HALF_RIGHT || part == SofaPart.CENTER;
+    }
+
+    // 寝転がりEntityを生成
+    private void createSofaEntity(Level level, BlockPos headPos, BlockPos footPos, Player player) {
+        SofaEntity sofa = new SofaEntity(ModEntities.SOFA.get(), level);
+
+        sofa.setLayout(headPos, footPos, SOFA_SLEEP_HEIGHT);
+
+        if (!level.addFreshEntity(sofa)) {
+            return;
+        }
+
+        boolean success = player.startRiding(sofa, true);
+
+        if (!success) {
+            sofa.discard();
+        }
+
+        log.info("[SofaBlock] startRiding={} isPassenger={}", success, player.isPassenger());
+    }
+
+    private BlockPos findFootPos(Level level, BlockPos headPos, BlockState headState) {
+        Direction facing = headState.getValue(FACING);
+
+        Direction right = facing.getClockWise();
+        Direction left = facing.getCounterClockWise();
+
+        BlockPos rightPos = headPos.relative(right);
+        BlockPos leftPos = headPos.relative(left);
+
+        boolean rightValid = isValidFootCandidate(level, rightPos);
+        boolean leftValid = isValidFootCandidate(level, leftPos);
+
+        // 右側を優先
+        if (rightValid) {
+            return rightPos;
+        }
+
+        if (leftValid) {
+            return leftPos;
+        }
+
+        return null;
+    }
+
+    private boolean isValidFootCandidate(Level level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+
+        if (state.getBlock() != this) {
+            return false;
+        }
+
+        if (!isValidSleepPart(state)) {
+            return false;
+        }
+
+        // 足側に着席者がいたら不可
+        if (hasSeat(level, pos)) {
+            return false;
+        }
+
+        // 既に寝転がりに使われていたら不可
+        return !hasSofaEntity(level, pos);
+    }
+
+    // ネットワーク経由の寝転がり要求をサーバー側で処理
+    public void handleLieRequest(ServerLevel level, BlockPos headPos, Player player) {
+        // 操作対象との距離を検証
+        if (player.distanceToSqr(Vec3.atCenterOf(headPos)) > 36.0D) {
+            return;
+        }
+
+        // プレイヤーが既に乗車中なら拒否
+        if (player.isPassenger()) {
+            return;
+        }
+
+        BlockState state = level.getBlockState(headPos);
+
+        // ソファ以外なら拒否
+        if (state.getBlock() != this) {
+            return;
+        }
+
+        // 寝転がりに使用できるPARTか確認
+        if (!isValidSleepPart(state)) {
+            return;
+        }
+
+        // 頭側が既に別の寝転がりEntityに占有されていないか確認
+        if (hasSofaEntity(level, headPos)) {
+            return;
+        }
+
+        // 足側を検索
+        BlockPos footPos = findFootPos(level, headPos, state);
+
+        if (footPos == null) {
+            return;
+        }
+
+        // Entity生成
+        createSofaEntity(level, headPos, footPos, player);
+    }
+
+    @Override
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (hand != InteractionHand.MAIN_HAND) {
+            return InteractionResult.PASS;
+        }
+
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
+        }
+
+        if (player.isPassenger()) {
+            return InteractionResult.PASS;
+        }
+
+        if (hasSeat(level, pos) || hasSofaEntity(level, pos)) {
+            return InteractionResult.PASS;
+        }
+
+        createSeat(level, pos, player);
+        return InteractionResult.CONSUME;
     }
 }

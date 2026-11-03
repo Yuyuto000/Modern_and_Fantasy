@@ -4,6 +4,7 @@ import aaaminecraft.modern_fantasy.block.ModBlocks;
 import aaaminecraft.modern_fantasy.entity.ModEntities;
 import aaaminecraft.modern_fantasy.item.ModCreativeTabs;
 import aaaminecraft.modern_fantasy.item.ModItems;
+import aaaminecraft.modern_fantasy.network.NetworkHandler;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -34,10 +35,12 @@ public class MainEntrance {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModEntities.register(modEventBus);
+        NetworkHandler.register();
 
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
+
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

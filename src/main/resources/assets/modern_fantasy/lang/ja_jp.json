@@ -76,5 +76,8 @@
   "entity.modern_fantasy.industrial_drone": "小型作業ドローン",
   "entity.modern_fantasy.magical_power_construct": "魔力生命体",
   "entity.modern_fantasy.combat_mech_unit": "戦闘用機械ユニット",
-  "entity.modern_fantasy.elemental_spirit": "精霊"
+  "entity.modern_fantasy.elemental_spirit": "精霊",
+
+  "key.modern_fantasy.sofa_lie" : "ソファに横になる",
+  "key.categories.modern_fantasy": "Modern Fantasy"
 }

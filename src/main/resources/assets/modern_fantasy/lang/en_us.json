@@ -76,5 +76,8 @@
   "entity.modern_fantasy.industrial_drone": "Industrial Drone",
   "entity.modern_fantasy.magical_power_construct": "Magical Power Construct",
   "entity.modern_fantasy.combat_mech_unit": "Combat Mech Unit",
-  "entity.modern_fantasy.elemental_spirit": "Elemental Spirit"
+  "entity.modern_fantasy.elemental_spirit": "Elemental Spirit",
+
+  "key.modern_fantasy.sofa_lie" : "Lie down on the sofa",
+  "key.categories.modern_fantasy": "Modern Fantasy"
 }
