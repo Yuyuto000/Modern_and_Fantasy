@@ -1,5 +1,6 @@
 package aaaminecraft.modern_fantasy.entity;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
+import org.slf4j.Logger;
 
 public class SofaEntity extends Entity {
 
@@ -18,6 +20,7 @@ public class SofaEntity extends Entity {
     private static final EntityDataAccessor<BlockPos> FOOT_POS = SynchedEntityData.defineId(SofaEntity.class, EntityDataSerializers.BLOCK_POS);
     private static final EntityDataAccessor<Float> SLEEP_HEIGHT = SynchedEntityData.defineId(SofaEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Byte> FOOT_DIRECTION = SynchedEntityData.defineId(SofaEntity.class, EntityDataSerializers.BYTE);
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     public SofaEntity(EntityType<? extends SofaEntity> entityType, Level level) {
         super(entityType, level);
@@ -36,20 +39,26 @@ public class SofaEntity extends Entity {
         this.entityData.set(FOOT_POS, footPos);
         this.entityData.set(SLEEP_HEIGHT, (float) height);
 
-        Direction direction = Direction.getNearest(footPos.getX() - headPos.getX(), 0, footPos.getZ() - headPos.getZ());
+        // 頭から足へ向かう方向を保存
+        Direction footDirection = Direction.getNearest(
+                footPos.getX() - headPos.getX(),
+                0,
+                footPos.getZ() - headPos.getZ()
+        );
 
-        this.entityData.set(FOOT_DIRECTION, (byte) direction.get3DDataValue());
+        this.entityData.set(
+                FOOT_DIRECTION,
+                (byte) footDirection.get3DDataValue()
+        );
 
+        // 2ブロックの中央にEntityを配置
         double centerX = (headPos.getX() + footPos.getX()) / 2.0D + 0.5D;
         double centerZ = (headPos.getZ() + footPos.getZ()) / 2.0D + 0.5D;
 
         this.setPos(centerX, headPos.getY(), centerZ);
 
-        // 頭側の方向をプレイヤーの正面にする
-        Direction headDirection = direction.getOpposite();
-        float yaw = headDirection.toYRot();
-
-        this.setYRot(yaw);
+        // 頭側の方向をEntityのYawに設定
+        this.setYRot(footDirection.getOpposite().toYRot());
     }
 
     public BlockPos getHeadPos() {
@@ -85,7 +94,8 @@ public class SofaEntity extends Entity {
     protected void positionRider(Entity passenger, MoveFunction moveFunction) {
         if (!(passenger instanceof LivingEntity living)) return;
 
-        Direction headDirection = getFootDirection().getOpposite();
+        Direction footDirection = getFootDirection();
+        Direction headDirection = footDirection.getOpposite();
 
         double offset = 0.45D;
 
@@ -93,13 +103,45 @@ public class SofaEntity extends Entity {
         double z = this.getZ() + headDirection.getStepZ() * offset;
         double y = this.getY() + this.getSleepHeight();
 
-        float yaw = headDirection.toYRot();
+        // バニラの睡眠描画処理に合わせた角度変換
+        float sleepYaw = switch (headDirection) {
+            case SOUTH -> 90.0F;
+            case NORTH -> 270.0F;
+            case EAST  -> 180.0F;
+            default    -> 0.0F;
+        };
 
-        // ソファと乗客の向きを統一
-        this.setYRot(yaw);
-        living.setYRot(yaw);
-        living.setYHeadRot(yaw);
-        living.setYBodyRot(yaw);
+        // 頭と胴体の描画方向を合わせる
+        // YRotは変更しない。プレイヤーの視点方向を維持するため。
+        living.setYHeadRot(sleepYaw);
+        living.setYBodyRot(sleepYaw);
+
+        if (this.tickCount % 20 == 0) {
+            LOGGER.info(
+                    "[SOFA RIDER DEBUG] " +
+                            "EntityPos=({}, {}, {}) | " +
+                            "HeadPos={} | FootPos={} | " +
+                            "FootDirection={} | HeadDirection={} | " +
+                            "Offset={} | " +
+                            "TargetPos=({}, {}, {}) | " +
+                            "SofaYaw={} | PlayerYaw={} | " +
+                            "PlayerHeadYaw={} | PlayerBodyYaw={} | " +
+                            "PlayerPose={} | PlayerVehicle={}",
+                    this.getX(), this.getY(), this.getZ(),
+                    getHeadPos(),
+                    getFootPos(),
+                    footDirection,
+                    headDirection,
+                    offset,
+                    x, y, z,
+                    this.getYRot(),
+                    living.getYRot(),
+                    living.getYHeadRot(),
+                    living.yBodyRot,
+                    living.getPose(),
+                    living.getVehicle()
+            );
+        }
 
         moveFunction.accept(passenger, x, y, z);
     }
@@ -119,6 +161,11 @@ public class SofaEntity extends Entity {
         super.removePassenger(passenger);
 
         if (passenger instanceof LivingEntity living) {
+            Direction headDirection = getFootDirection().getOpposite();
+            float normalYaw = headDirection.toYRot();
+
+            living.setYHeadRot(normalYaw);
+            living.setYBodyRot(normalYaw);
             living.setPose(Pose.STANDING);
         }
     }

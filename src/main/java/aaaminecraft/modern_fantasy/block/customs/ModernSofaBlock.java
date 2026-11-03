@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -331,15 +332,39 @@ public class ModernSofaBlock extends HorizontalDirectionalBlock {
         boolean rightValid = isValidFootCandidate(level, rightPos);
         boolean leftValid = isValidFootCandidate(level, leftPos);
 
-        // 右側を優先
-        if (rightValid) {
-            return rightPos;
-        }
+        log.info(
+                """
+                ========== SOFA FOOT SEARCH ==========
+                HeadPos={}
+                HeadPart={}
+                Facing={}
+                RightDirection={}
+                RightPos={}
+                RightState={}
+                RightValid={}
+                LeftDirection={}
+                LeftPos={}
+                LeftState={}
+                LeftValid={}
+                ======================================
+                """,
+                headPos,
+                headState.getValue(PART),
+                facing,
+                right,
+                rightPos,
+                level.getBlockState(rightPos),
+                rightValid,
+                left,
+                leftPos,
+                level.getBlockState(leftPos),
+                leftValid
+        );
 
-        if (leftValid) {
-            return leftPos;
-        }
+        if (rightValid) return rightPos;
+        if (leftValid) return leftPos;
 
+        log.warn("[SOFA FOOT SEARCH] No valid foot position found.");
         return null;
     }
 
@@ -370,9 +395,16 @@ public class ModernSofaBlock extends HorizontalDirectionalBlock {
             return;
         }
 
-        // プレイヤーが既に乗車中なら拒否
+        // 通常のソファ着席状態なら、一度降りて寝転がり処理へ進む
         if (player.isPassenger()) {
-            return;
+            Entity vehicle = player.getVehicle();
+
+            if (vehicle instanceof SeatEntity seat) {
+                player.stopRiding();
+                seat.discard();
+            } else {
+                return;
+            }
         }
 
         BlockState state = level.getBlockState(headPos);
