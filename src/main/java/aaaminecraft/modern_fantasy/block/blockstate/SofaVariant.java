@@ -2,8 +2,7 @@ package aaaminecraft.modern_fantasy.block.blockstate;
 
 import net.minecraft.util.StringRepresentable;
 
-public enum SofaPart implements StringRepresentable {
-
+public enum SofaVariant implements StringRepresentable {
     SINGLE("single"),
     HALF_LEFT("half_left"),
     HALF_RIGHT("half_right"),
@@ -13,7 +12,7 @@ public enum SofaPart implements StringRepresentable {
 
     private final String name;
 
-    SofaPart(String name) {
+    SofaVariant(String name) {
         this.name = name;
     }
 

@@ -1,6 +1,7 @@
 package aaaminecraft.modern_fantasy;
 
 import aaaminecraft.modern_fantasy.block.ModBlocks;
+import aaaminecraft.modern_fantasy.block.blockentity.ModBlockEntities;
 import aaaminecraft.modern_fantasy.entity.ModEntities;
 import aaaminecraft.modern_fantasy.item.ModCreativeTabs;
 import aaaminecraft.modern_fantasy.item.ModItems;
@@ -34,6 +35,7 @@ public class MainEntrance {
         ModCreativeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
         ModEntities.register(modEventBus);
         NetworkHandler.register();
 

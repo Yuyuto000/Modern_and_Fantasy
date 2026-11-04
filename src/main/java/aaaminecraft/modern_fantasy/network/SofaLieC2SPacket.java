@@ -1,3 +1,4 @@
+/*
 package aaaminecraft.modern_fantasy.network;
 
 import aaaminecraft.modern_fantasy.block.customs.ModernSofaBlock;
@@ -52,3 +53,4 @@ public class SofaLieC2SPacket {
         context.setPacketHandled(true);
     }
 }
+*/

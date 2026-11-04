@@ -1,98 +1,98 @@
 
 {
   "variants": {
-    "facing=north,part=single": {
+    "facing=north,variant=single": {
       "model": "modern_fantasy:block/modern_sofa_single"
     },
-    "facing=east,part=single": {
+    "facing=east,variant=single": {
       "model": "modern_fantasy:block/modern_sofa_single",
       "y": 90
     },
-    "facing=south,part=single": {
+    "facing=south,variant=single": {
       "model": "modern_fantasy:block/modern_sofa_single",
       "y": 180
     },
-    "facing=west,part=single": {
+    "facing=west,variant=single": {
       "model": "modern_fantasy:block/modern_sofa_single",
       "y": 270
     },
 
-    "facing=north,part=half_left": {
+    "facing=north,variant=half_left": {
       "model": "modern_fantasy:block/modern_sofa_half_left"
     },
-    "facing=east,part=half_left": {
+    "facing=east,variant=half_left": {
       "model": "modern_fantasy:block/modern_sofa_half_left",
       "y": 90
     },
-    "facing=south,part=half_left": {
+    "facing=south,variant=half_left": {
       "model": "modern_fantasy:block/modern_sofa_half_left",
       "y": 180
     },
-    "facing=west,part=half_left": {
+    "facing=west,variant=half_left": {
       "model": "modern_fantasy:block/modern_sofa_half_left",
       "y": 270
     },
 
-    "facing=north,part=half_right": {
+    "facing=north,variant=half_right": {
       "model": "modern_fantasy:block/modern_sofa_half_right"
     },
-    "facing=east,part=half_right": {
+    "facing=east,variant=half_right": {
       "model": "modern_fantasy:block/modern_sofa_half_right",
       "y": 90
     },
-    "facing=south,part=half_right": {
+    "facing=south,variant=half_right": {
       "model": "modern_fantasy:block/modern_sofa_half_right",
       "y": 180
     },
-    "facing=west,part=half_right": {
+    "facing=west,variant=half_right": {
       "model": "modern_fantasy:block/modern_sofa_half_right",
       "y": 270
     },
 
-    "facing=north,part=corner_left": {
+    "facing=north,variant=corner_left": {
       "model": "modern_fantasy:block/modern_sofa_corner_left"
     },
-    "facing=east,part=corner_left": {
+    "facing=east,variant=corner_left": {
       "model": "modern_fantasy:block/modern_sofa_corner_left",
       "y": 90
     },
-    "facing=south,part=corner_left": {
+    "facing=south,variant=corner_left": {
       "model": "modern_fantasy:block/modern_sofa_corner_left",
       "y": 180
     },
-    "facing=west,part=corner_left": {
+    "facing=west,variant=corner_left": {
       "model": "modern_fantasy:block/modern_sofa_corner_left",
       "y": 270
     },
 
-    "facing=north,part=corner_right": {
+    "facing=north,variant=corner_right": {
       "model": "modern_fantasy:block/modern_sofa_corner_right"
     },
-    "facing=east,part=corner_right": {
+    "facing=east,variant=corner_right": {
       "model": "modern_fantasy:block/modern_sofa_corner_right",
       "y": 90
     },
-    "facing=south,part=corner_right": {
+    "facing=south,variant=corner_right": {
       "model": "modern_fantasy:block/modern_sofa_corner_right",
       "y": 180
     },
-    "facing=west,part=corner_right": {
+    "facing=west,variant=corner_right": {
       "model": "modern_fantasy:block/modern_sofa_corner_right",
       "y": 270
     },
 
-    "facing=north,part=center": {
+    "facing=north,variant=center": {
       "model": "modern_fantasy:block/modern_sofa_center"
     },
-    "facing=east,part=center": {
+    "facing=east,variant=center": {
       "model": "modern_fantasy:block/modern_sofa_center",
       "y": 90
     },
-    "facing=south,part=center": {
+    "facing=south,variant=center": {
       "model": "modern_fantasy:block/modern_sofa_center",
       "y": 180
     },
-    "facing=west,part=center": {
+    "facing=west,variant=center": {
       "model": "modern_fantasy:block/modern_sofa_center",
       "y": 270
     }

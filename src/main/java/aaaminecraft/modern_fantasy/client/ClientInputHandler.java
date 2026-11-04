@@ -2,7 +2,6 @@ package aaaminecraft.modern_fantasy.client;
 
 import aaaminecraft.modern_fantasy.block.customs.ModernSofaBlock;
 import aaaminecraft.modern_fantasy.network.NetworkHandler;
-import aaaminecraft.modern_fantasy.network.SofaLieC2SPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
@@ -46,7 +45,7 @@ public class ClientInputHandler {
                 continue;
             }
 
-            NetworkHandler.CHANNEL.sendToServer(new SofaLieC2SPacket(pos));
+//            NetworkHandler.CHANNEL.sendToServer(new SofaLieC2SPacket(pos));
         }
     }
 }

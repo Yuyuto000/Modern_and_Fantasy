@@ -23,6 +23,7 @@ public class NetworkHandler {
     private static int packetId = 0;
 
     public static void register(){
+/*
         CHANNEL.registerMessage(
                 packetId++,
                 SofaLieC2SPacket.class,
@@ -31,5 +32,6 @@ public class NetworkHandler {
                 SofaLieC2SPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER)
         );
+*/
     }
 }
