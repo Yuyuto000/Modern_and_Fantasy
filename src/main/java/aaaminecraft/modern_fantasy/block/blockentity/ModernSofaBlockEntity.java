@@ -1,6 +1,6 @@
+
 package aaaminecraft.modern_fantasy.block.blockentity;
 
-import aaaminecraft.modern_fantasy.block.blockstate.SofaBlockPart;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -12,12 +12,8 @@ import java.util.UUID;
 
 public class ModernSofaBlockEntity extends BlockEntity {
 
-    private static final String TAG_CONNECTED_POS = "ConnectedPos";
     private static final String TAG_LYING_PLAYER = "LyingPlayer";
     private static final String TAG_SEATED_PLAYER = "SeatedPlayer";
-
-    @Nullable
-    private BlockPos connectedPos;
 
     @Nullable
     private UUID lyingPlayer;
@@ -29,26 +25,7 @@ public class ModernSofaBlockEntity extends BlockEntity {
         super(ModBlockEntities.MODERN_SOFA.get(), pos, state);
     }
 
-    // ==================================================
-    // 接続先
-    // ==================================================
-
-    @Nullable
-    public BlockPos getConnectedPos() {
-        return connectedPos;
-    }
-
-    public void setConnectedPos(@Nullable BlockPos pos) {
-        if (pos == null) {
-            connectedPos = null;
-        } else {
-            connectedPos = pos.immutable();
-        }
-
-        setChangedAndSync();
-    }
-
-    // 利用者
+    // 利用状態の取得
     @Nullable
     public UUID getLyingPlayer() {
         return lyingPlayer;
@@ -67,6 +44,7 @@ public class ModernSofaBlockEntity extends BlockEntity {
         return seatedPlayer != null;
     }
 
+    // 利用状態の設定
     public boolean setLyingPlayer(@Nullable UUID player) {
         if (player != null && lyingPlayer != null) {
             return false;
@@ -87,6 +65,7 @@ public class ModernSofaBlockEntity extends BlockEntity {
         return true;
     }
 
+    // 利用状態の解除
     public void clearLyingPlayer() {
         lyingPlayer = null;
         setChangedAndSync();
@@ -103,27 +82,17 @@ public class ModernSofaBlockEntity extends BlockEntity {
         setChangedAndSync();
     }
 
+    // 利用状態の一括設定
     public void setOccupants(@Nullable UUID lying, @Nullable UUID seated) {
         lyingPlayer = lying;
         seatedPlayer = seated;
         setChangedAndSync();
     }
 
-    // HEAD / FOOT判定
-    public boolean isHead() {
-        return level != null
-                && level.getBlockState(worldPosition).hasProperty(aaaminecraft.modern_fantasy.block.customs.ModernSofaBlock.BLOCK_PART)
-                && level.getBlockState(worldPosition).getValue(aaaminecraft.modern_fantasy.block.customs.ModernSofaBlock.BLOCK_PART) == SofaBlockPart.HEAD;
-    }
     // 保存
-
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-
-        if (connectedPos != null) {
-            tag.putLong(TAG_CONNECTED_POS, connectedPos.asLong());
-        }
 
         if (lyingPlayer != null) {
             tag.putUUID(TAG_LYING_PLAYER, lyingPlayer);
@@ -137,18 +106,8 @@ public class ModernSofaBlockEntity extends BlockEntity {
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
-
-        connectedPos = tag.contains(TAG_CONNECTED_POS)
-                ? BlockPos.of(tag.getLong(TAG_CONNECTED_POS))
-                : null;
-
-        lyingPlayer = tag.hasUUID(TAG_LYING_PLAYER)
-                ? tag.getUUID(TAG_LYING_PLAYER)
-                : null;
-
-        seatedPlayer = tag.hasUUID(TAG_SEATED_PLAYER)
-                ? tag.getUUID(TAG_SEATED_PLAYER)
-                : null;
+        lyingPlayer = tag.hasUUID(TAG_LYING_PLAYER) ? tag.getUUID(TAG_LYING_PLAYER) : null;
+        seatedPlayer = tag.hasUUID(TAG_SEATED_PLAYER) ? tag.getUUID(TAG_SEATED_PLAYER) : null;
     }
 
     // クライアント同期
