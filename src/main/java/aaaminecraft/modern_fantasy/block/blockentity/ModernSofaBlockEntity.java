@@ -46,7 +46,9 @@ public class ModernSofaBlockEntity extends BlockEntity {
 
     // 利用状態の設定
     public boolean setLyingPlayer(@Nullable UUID player) {
-        if (player != null && lyingPlayer != null) {
+        if (player != null
+                && lyingPlayer != null
+                && !lyingPlayer.equals(player)) {
             return false;
         }
 
@@ -56,7 +58,9 @@ public class ModernSofaBlockEntity extends BlockEntity {
     }
 
     public boolean setSeatedPlayer(@Nullable UUID player) {
-        if (player != null && seatedPlayer != null) {
+        if (player != null
+                && seatedPlayer != null
+                && !seatedPlayer.equals(player)) {
             return false;
         }
 
@@ -76,6 +80,20 @@ public class ModernSofaBlockEntity extends BlockEntity {
         setChangedAndSync();
     }
 
+    // 指定されたプレイヤーが占有している場合のみ解除する。
+
+    public void clearLyingPlayer(UUID player) {
+        if (player.equals(lyingPlayer)) {
+            clearLyingPlayer();
+        }
+    }
+
+    public void clearSeatedPlayer(UUID player) {
+        if (player.equals(seatedPlayer)) {
+            clearSeatedPlayer();
+        }
+    }
+
     public void clearOccupants() {
         lyingPlayer = null;
         seatedPlayer = null;
@@ -83,7 +101,10 @@ public class ModernSofaBlockEntity extends BlockEntity {
     }
 
     // 利用状態の一括設定
-    public void setOccupants(@Nullable UUID lying, @Nullable UUID seated) {
+    public void setOccupants(
+            @Nullable UUID lying,
+            @Nullable UUID seated
+    ) {
         lyingPlayer = lying;
         seatedPlayer = seated;
         setChangedAndSync();

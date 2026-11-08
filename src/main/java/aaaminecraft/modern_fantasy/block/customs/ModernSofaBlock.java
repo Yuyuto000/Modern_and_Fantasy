@@ -6,6 +6,7 @@ import aaaminecraft.modern_fantasy.block.blockstate.SofaVariant;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -21,6 +22,10 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class ModernSofaBlock extends HorizontalDirectionalBlock implements EntityBlock {
 
@@ -117,6 +122,61 @@ public class ModernSofaBlock extends HorizontalDirectionalBlock implements Entit
         BlockState targetState = level.getBlockState(targetPos);
 
         return targetState.getBlock() == this;
+    }
+
+    // Gキーからの横転要求をサーバー側で処理する
+    public void handleLieRequest(Level level, BlockPos pos, ServerPlayer player) {
+        if (level.isClientSide) return;
+        if (!level.hasChunkAt(pos)) return;
+
+        BlockState headState = level.getBlockState(pos);
+        if (headState.getBlock() != this) return;
+
+        UUID playerUUID = player.getUUID();
+        BlockEntity headEntity = level.getBlockEntity(pos);
+
+        if (!(headEntity instanceof ModernSofaBlockEntity headBE)) return;
+
+        // 既にこのHEADで横になっている場合は解除
+        if (playerUUID.equals(headBE.getLyingPlayer())){
+            headBE.clearLyingPlayer();
+            return;
+        }
+
+        //他のプレイヤーが横になっている場合は拒否
+        if (headBE.isLyingOccupied()) return;
+
+        // 座席・横転の既存状態を確認
+        if (player.isPassenger()) return;
+
+        // 隣接するソファを探索
+        List<BlockPos> adjacentSofas = new ArrayList<>();
+
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            BlockPos candidate =  pos.relative(direction);
+
+            if (!level.hasChunkAt(candidate)) continue;
+
+            if (level.getBlockState(candidate).getBlock() == this) {
+                adjacentSofas.add(candidate);
+            }
+        }
+
+        // ペアが一意に決定できない場合は拒否
+        if (adjacentSofas.size() != 1) return;
+
+        BlockPos footPos = adjacentSofas.get(0);
+        BlockEntity footEntity = level.getBlockEntity(footPos);
+        if (!(footEntity instanceof ModernSofaBlockEntity footBE)) return;
+        if (footBE.isLyingOccupied() || footBE.isSeatOccupied()) return;
+
+        AABB footArea = new AABB(footPos);
+
+        boolean occupiedByOtherPlayer = !level.getEntitiesOfClass(ServerPlayer.class, footArea, other -> other.isAlive() && !other.getUUID().equals(playerUUID)).isEmpty();
+        if (occupiedByOtherPlayer) return;
+
+        // HEAD側の横転枠を確保
+        headBE.setLyingPlayer(playerUUID);
     }
 
     // 破壊処理

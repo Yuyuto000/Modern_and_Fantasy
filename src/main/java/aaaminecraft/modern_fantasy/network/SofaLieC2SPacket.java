@@ -1,4 +1,4 @@
-/*
+
 package aaaminecraft.modern_fantasy.network;
 
 import aaaminecraft.modern_fantasy.block.customs.ModernSofaBlock;
@@ -18,39 +18,34 @@ public class SofaLieC2SPacket {
         this.pos = pos;
     }
 
-    // 送信データ:BlockPos
     public static void encode(SofaLieC2SPacket packet, FriendlyByteBuf buffer) {
         buffer.writeBlockPos(packet.pos);
     }
 
-    // 送信データからパケット復元
     public static SofaLieC2SPacket decode(FriendlyByteBuf buffer) {
         return new SofaLieC2SPacket(buffer.readBlockPos());
     }
 
-    // サーバー側受信処理
     public static void handle(SofaLieC2SPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        NetworkEvent.Context context = ctx.get();
 
+        NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
+
             ServerPlayer player = context.getSender();
 
-            if (player == null || player.isPassenger()) {
-                return;
-            }
+            if (player == null || !player.isAlive() || player.isSpectator()) return;
+            if (player.isPassenger()) return;
 
-            // 遠距離の座標を読み込まないよう先に検証
-            if (player.distanceToSqr(Vec3.atCenterOf(packet.pos)
-            ) > 36.0D) {
-                return;
-            }
+            BlockPos pos = packet.pos;
 
-            if (player.serverLevel().getBlockState(packet.pos).getBlock() instanceof ModernSofaBlock sofaBlock) {
-                sofaBlock.handleLieRequest(player.serverLevel(), packet.pos, player);
+            if (!player.serverLevel().hasChunkAt(pos)) return;
+            if (player.distanceToSqr(Vec3.atCenterOf(pos)) > 36.0D) return;
+
+            if (player.serverLevel().getBlockState(pos).getBlock() instanceof ModernSofaBlock sofaBlock) {
+                sofaBlock.handleLieRequest(player.serverLevel(), pos, player);
             }
         });
 
         context.setPacketHandled(true);
     }
 }
-*/

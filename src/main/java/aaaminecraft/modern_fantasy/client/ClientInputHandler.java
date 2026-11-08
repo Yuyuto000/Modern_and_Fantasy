@@ -1,7 +1,9 @@
 package aaaminecraft.modern_fantasy.client;
 
+import aaaminecraft.modern_fantasy.MainEntrance;
 import aaaminecraft.modern_fantasy.block.customs.ModernSofaBlock;
 import aaaminecraft.modern_fantasy.network.NetworkHandler;
+import aaaminecraft.modern_fantasy.network.SofaLieC2SPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
@@ -11,41 +13,27 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(
-        modid = "modern_fantasy",
-        value = Dist.CLIENT
-)
+@Mod.EventBusSubscriber(modid = MainEntrance.MODID, value = Dist.CLIENT)
 public class ClientInputHandler {
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
-            return;
-        }
+        if (event.phase != TickEvent.Phase.END) return;
 
         Minecraft minecraft = Minecraft.getInstance();
 
-        if (minecraft.player == null || minecraft.level == null) {
-            return;
-        }
+        if (minecraft.player == null || minecraft.level == null) return;
 
-        while (ModKeyMappings.SOFA_LIE.consumeClick()) {
-
-            if (!(minecraft.hitResult instanceof BlockHitResult hit)) {
-                continue;
-            }
-
-            if (hit.getType() != HitResult.Type.BLOCK) {
-                continue;
-            }
+        while (ModKeyMappings.SOFA_LIE.consumeClick()){
+            if (!(minecraft.hitResult instanceof BlockHitResult hit)) continue;
+            if (hit.getType() != HitResult.Type.BLOCK) continue;
 
             BlockPos pos = hit.getBlockPos();
 
-            if (!(minecraft.level.getBlockState(pos).getBlock() instanceof ModernSofaBlock)) {
-                continue;
-            }
+            if (!(minecraft.level.getBlockState(pos).getBlock() instanceof ModernSofaBlock)) continue;
 
-//            NetworkHandler.CHANNEL.sendToServer(new SofaLieC2SPacket(pos));
+            // サーバーへ横転要求を送信
+            NetworkHandler.CHANNEL.sendToServer(new SofaLieC2SPacket(pos));
         }
     }
 }

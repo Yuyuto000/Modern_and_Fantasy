@@ -37,7 +37,7 @@ public class MainEntrance {
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModEntities.register(modEventBus);
-        NetworkHandler.register();
+        modEventBus.addListener(this::commonSetup);
 
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
@@ -46,7 +46,7 @@ public class MainEntrance {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
+        event.enqueueWork(NetworkHandler::register);
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
