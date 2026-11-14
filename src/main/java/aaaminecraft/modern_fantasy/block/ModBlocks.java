@@ -19,18 +19,6 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, MainEntrance.MODID);
 
-    // 現代家具
-    public static final RegistryObject<Block> MODERN_CHAIR = registerBlock("modern_chair", //done
-            () -> new ModernChairBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)));
-    public static final RegistryObject<Block> MODERN_DINING_TABLE = registerBlock("modern_dining_table", //done
-            () -> new ModernDiningTableBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)));
-    public static final RegistryObject<Block> MODERN_SOFA = registerBlock("modern_sofa",
-            () -> new ModernSofaBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)));
-    public static final RegistryObject<Block> MODERN_SHELF = registerBlock("modern_shelf",
-            () -> new ModernShelfBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)));
-    public static final RegistryObject<Block> MODERN_STORAGE_CABINET = registerBlock("modern_storage_cabinet",
-            () -> new ModernStorageCabinetBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
-
     // 機械系
     public static final RegistryObject<Block> ELECTRICAL_CONTROL_PANEL = registerBlock("electric_control_panel",
             () -> new ElectricControlPanelBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));

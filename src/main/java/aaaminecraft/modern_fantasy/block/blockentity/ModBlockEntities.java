@@ -16,15 +16,6 @@ public class ModBlockEntities {
                     MainEntrance.MODID
             );
 
-    public static final RegistryObject<BlockEntityType<ModernSofaBlockEntity>> MODERN_SOFA =
-            BLOCK_ENTITIES.register(
-                    "modern_sofa",
-                    () -> BlockEntityType.Builder.of(
-                            ModernSofaBlockEntity::new,
-                            ModBlocks.MODERN_SOFA.get()
-                    ).build(null)
-            );
-
     public static void register(IEventBus bus) {
         BLOCK_ENTITIES.register(bus);
     }

@@ -32,11 +32,6 @@ public class ModCreativeTabs {
                         output.accept(ModItems.GENERAL_PURPOSE_ELECTRIC_MOTORS.get());
                         output.accept(ModItems.QUANTUM_COMPUTATION_CORE.get());
                         // Blocks
-                        output.accept(ModBlocks.MODERN_CHAIR.get());
-                        output.accept(ModBlocks.MODERN_DINING_TABLE.get());
-                        output.accept(ModBlocks.MODERN_SOFA.get());
-                        output.accept(ModBlocks.MODERN_SHELF.get());
-                        output.accept(ModBlocks.MODERN_STORAGE_CABINET.get());
                         output.accept(ModBlocks.ELECTRICAL_CONTROL_PANEL.get());
                         output.accept(ModBlocks.MODERN_SMALL_GENERATOR.get());
                         output.accept(ModBlocks.MECHANICAL_CRAFTER.get());

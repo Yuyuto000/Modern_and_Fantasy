@@ -5,7 +5,6 @@ import aaaminecraft.modern_fantasy.block.blockentity.ModBlockEntities;
 import aaaminecraft.modern_fantasy.entity.ModEntities;
 import aaaminecraft.modern_fantasy.item.ModCreativeTabs;
 import aaaminecraft.modern_fantasy.item.ModItems;
-import aaaminecraft.modern_fantasy.network.NetworkHandler;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -46,7 +45,6 @@ public class MainEntrance {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(NetworkHandler::register);
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
