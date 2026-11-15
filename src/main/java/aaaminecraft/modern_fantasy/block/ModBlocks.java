@@ -30,6 +30,8 @@ public class ModBlocks {
             () -> new ItemConveyorBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> UNIVERSAL_DIGITAL_STORAGE = registerBlock("universal_digital_storage",
             () -> new UniversalDigitalStorageBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> ENERGY_CABLE = registerBlock("energy_cable",
+            () -> new EnergyCableBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
 
     // 魔術・ファンタジー系
     public static final RegistryObject<Block> MAGIC_REACTOR = registerBlock("magic_reactor",

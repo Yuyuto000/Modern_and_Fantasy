@@ -37,6 +37,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.MECHANICAL_CRAFTER.get());
                         output.accept(ModBlocks.ITEM_CONVEYOR.get());
                         output.accept(ModBlocks.UNIVERSAL_DIGITAL_STORAGE.get());
+                        output.accept(ModBlocks.ENERGY_CABLE.get());
                     })
                     .build());
 
