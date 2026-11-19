@@ -192,4 +192,108 @@ public class EnergyNetworkGraph {
     public void clear() {
         connections.clear();
     }
+
+    /**
+     * 指定された接続点からBFS(幅優先探索)を実行する。
+     *
+     * <p>
+     *     開始地点から到達可能な全ての接続点を探索する。
+     *     開始地点自身も結果に含まれる。
+     * </p>
+     *
+     * <p>
+     *     探索中はQueueで次に探索する接続点を管理し、
+     *     Setで探索済みの接続点を記録する。
+     * </p>
+     *
+     * @param start 探索開始地点
+     * @return 開始地点から到達可能な接続点の集合。開始地点がグラフに存在しない場合は空集合。
+     */
+    public Set<EnergyConnectionPoint> traverse(EnergyConnectionPoint start){
+
+        if (start == null || !connections.containsKey(start)) return Collections.emptySet();
+
+        // 探索待ちの接続点を保持するキュー
+        Queue<EnergyConnectionPoint> queue = new ArrayDeque<>();
+
+        // 探索炭の接続点を記録する集合
+        Set<EnergyConnectionPoint> visited = new HashSet<>();
+
+        // 開始地点を登録
+        queue.add(start);
+        visited.add(start);
+
+        // 探索対象がなくなるまで繰り返す
+        while (!queue.isEmpty()){
+
+            // 次に探索する接続点を取得
+            EnergyConnectionPoint current = queue.poll();
+
+            // 現在の接続点に隣接する点を取得
+            for (EnergyConnectionPoint neighbor : getConnectedPoints(current)){
+
+                // 未探索の場合のみキューに登録
+                if (visited.add(neighbor)) queue.add(neighbor);
+            }
+        }
+
+        return Collections.unmodifiableSet(visited);
+    }
+
+    /**
+     * 2つの接続点間に接続経路が存在するか判定する。
+     *
+     * @param start 探索開始地点
+     * @param target 到達目標点
+     * @return 両地点が同一、または接続経路が存在する場合はTrue。
+     */
+    public boolean isConnected(EnergyConnectionPoint start, EnergyConnectionPoint target){
+
+        if (start == null || target == null) return false;
+        if (start.equals(target)) return connections.containsKey(start);
+
+        return traverse(start).contains(target);
+    }
+
+    /**
+     * 指定された接続点が属する連結成分を取得する。
+     *
+     * <p>
+     *     連結成分とは、互いに経路で到達できる接続点の集合。
+     * </p>
+     * @param point 指定地点が属する連結成分
+     * @return 指定地点が属する連結成分。存在しない場合は空集合。
+     */
+    public Set<EnergyConnectionPoint> findConnectedComponent(EnergyConnectionPoint point){
+        return traverse(point);
+    }
+
+    /**
+     * グラフに登録されているすべての接続を取得する。
+     *
+     * <p>
+     *     両端点から同じ接続が参照されているため、
+     *     Setによって重複を排除する。
+     * </p>
+     *
+     * @return グラフ内の全ての接続情報。
+     */
+    public Set<EnergyConnection> getAllConnections(){
+        Set<EnergyConnection> result = new HashSet<>();
+
+        for (Set<EnergyConnection> set : connections.values()){
+            result.addAll(set);
+        }
+
+        return Collections.unmodifiableSet(result);
+    }
+
+    /**
+     * グラフに登録されているすべての接続点を取得する。
+     *
+     * @return 登録されている接続点の集合。
+     */
+    public Set<EnergyConnectionPoint> getConnectionPoints(){
+        return Set.copyOf(connections.keySet());
+    }
 }
