@@ -27,6 +27,7 @@ public interface EnergyTransferModel {
      * @param source 転送元コンテナ
      * @param target 転送先コンテナ
      * @param requestedAmount 要求する転送量
+     * @param context 転送経路などの追加情報
      * @return 転送結果
      *
      * @throws IllegalArgumentException 引数が不正な場合、または対応しないエネルギーの場合
@@ -34,6 +35,7 @@ public interface EnergyTransferModel {
     EnergyTransferResult transfer(
             EnergyContainer source,
             EnergyContainer target,
-            double requestedAmount
+            double requestedAmount,
+            EnergyTransferContext context
     );
 }

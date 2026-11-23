@@ -261,14 +261,14 @@ public class EnergyNetworkManager {
         // 各連結成分を新しいネットワークとして再構築
         for (Set<EnergyConnectionPoint> component : components){
 
-            EnergyNetwork separatednetwork = createUniqueNetwork();
+            EnergyNetwork separatedNetwork = createUniqueNetwork();
 
             for (EnergyConnection existing : oldConnections){
 
-                if (component.contains(existing.endA()) && component.contains(existing.endB())) separatednetwork.addConnection(existing);
+                if (component.contains(existing.endA()) && component.contains(existing.endB())) separatedNetwork.addConnection(existing);
             }
 
-            registerNetwork(separatednetwork);
+            registerNetwork(separatedNetwork);
         }
 
         return true;
@@ -292,7 +292,7 @@ public class EnergyNetworkManager {
      *
      * @return 所属ネットワーク。存在しない場合null。
      */
-    public EnergyNetwork getNetwork(EnergyConnectionPoint point){
+    public EnergyNetwork getNetworkAt(EnergyConnectionPoint point){
 
         UUID id = pointNetworkIndex.get(point);
         if (id == null) return null;
