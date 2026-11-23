@@ -6,41 +6,34 @@ on:
     branches:
       - "**"
 
-  workflow_dispatch:
-
 permissions:
   contents: read
 
 jobs:
   build:
-    name: Build Forge Mod
+    name: Build Mod
     runs-on: ubuntu-latest
 
     steps:
-      # リポジトリのソースコードを取得
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # Java 17環境を構築
       - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
 
-      # Gradle環境をセットアップ
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      # Forge MODをビルド
-      - name: Build Forge Mod
+      - name: Build
         run: |
+          set -o pipefail
           chmod +x ./gradlew
-          ./gradlew build --stacktrace --info \
-            2>&1 | tee build.log
+          ./gradlew build --stacktrace --info 2>&1 | tee build.log
 
-      # ビルドレポートとログを収集
-      - name: Collect Build Reports
+      - name: Collect Reports
         if: always()
         run: |
           mkdir -p artifacts/reports
@@ -53,8 +46,7 @@ jobs:
             cp build.log artifacts/reports/
           fi
 
-      # ビルド成果物をArtifactとして保存
-      - name: Upload Build Artifacts
+      - name: Upload Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:

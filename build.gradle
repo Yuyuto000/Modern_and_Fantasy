@@ -1,3 +1,6 @@
+import com.github.jk1.license.render.CsvReportRenderer
+import com.github.jk1.license.render.JsonReportRenderer
+
 buildscript {
     repositories {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
@@ -13,6 +16,8 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'checkstyle'
+    id 'com.github.jk1.dependency-license-report' version '2.9'
 }
 
 apply plugin: 'org.spongepowered.mixin'
@@ -212,4 +217,19 @@ tasks.named('jar', Jar).configure {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+
+checkstyle {
+    toolVersion = '10.21.2'
+    configFile = file('config/checkstyle/checkstyle.xml')
+    ignoreFailures = false
+}
+
+licenseReport {
+    outputDir = "$buildDir/reports/dependency-license"
+    renderers = [
+            new JsonReportRenderer(),
+            new CsvReportRenderer()
+    ]
 }
