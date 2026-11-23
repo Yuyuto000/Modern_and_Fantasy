@@ -22,6 +22,7 @@ import java.util.Optional;
 public abstract class EnergyDefinition {
 
     private final String name;
+    private final EnergyUnit unit;
 
     private final Map<EnergyPropertyType<?>, EnergyProperty<?>> properties = new HashMap<>();
 
@@ -29,12 +30,17 @@ public abstract class EnergyDefinition {
      * EnergyDefinitionを生成する。
      *
      * @param name エネルギーの識別名称
-     *
-     * @throws IllegalArgumentException nameがnullまたは空文字の場合。エラーコード:[MF-ENERGY-007]
+     *             nullまたは空渡し不可
+     * @param unit エネルギー量を表現する単位。
+     *             null不可。
+     * @throws IllegalArgumentException 各引数が不正な場合。不正条件は各パラメータ説明参照。エラーコード:[MF-ENERGY-007], [MF-ENERGY-019]
      */
-    protected EnergyDefinition(String name){
+    protected EnergyDefinition(String name, EnergyUnit unit) {
         if (name == null || name.isBlank()) throw new IllegalArgumentException("[MF-ENERGY-007] Energy name cannot be null or blank");
+        if (unit == null) throw new IllegalArgumentException("[MF-ENERGY-019] Energy unit cannot be null");
+
         this.name = name;
+        this.unit = unit;
     }
 
     /**
@@ -92,5 +98,9 @@ public abstract class EnergyDefinition {
      */
     public final String getName(){
         return name;
+    }
+
+    public final EnergyUnit getUnit(){
+        return unit;
     }
 }
