@@ -72,7 +72,8 @@ public class EnergyContainer {
      * @throws IllegalArgumentException 要求量が負数・非有限値の場合
      */
     public double extract(double requestedAmount){
-        if (!Double.isFinite(requestedAmount) || requestedAmount < 0.0) throw new IllegalArgumentException("[MF-ENERGY-028] Requested amount must be a finite non-negative value.");
+        if (!Double.isFinite(requestedAmount) || requestedAmount < 0.0)
+            throw new IllegalArgumentException("[MF-ENERGY-028] Requested amount must be a finite non-negative value.");
 
         double extracted = Math.min(requestedAmount, amount);
         amount -= extracted;
