@@ -43,8 +43,10 @@ public class MagicEnergyTransferModel implements EnergyTransferModel {
     ) {
         Objects.requireNonNull(source, "Source cannot be null");
 
-        if (!(source.getDefinition() instanceof MagicEnergyDefinition)) throw new IllegalArgumentException("Source must contain magic energy");
-        if (target == null || !(target.getDefinition() instanceof MagicEnergyDefinition)) throw new IllegalArgumentException("Target must contain magic energy");
+        if (!(source.getDefinition() instanceof MagicEnergyDefinition))
+            throw new IllegalArgumentException("Source must contain magic energy");
+        if (target == null || !(target.getDefinition() instanceof MagicEnergyDefinition))
+            throw new IllegalArgumentException("Target must contain magic energy");
 
         return basicModel.transfer(source, target, requestedAmount, context);
     }

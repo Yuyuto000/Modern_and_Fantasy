@@ -24,7 +24,8 @@ public abstract class EnergyDefinition {
     private final String name;
     private final EnergyUnit unit;
 
-    private final Map<EnergyPropertyType<?>, EnergyProperty<?>> properties = new HashMap<>();
+    private final Map<EnergyPropertyType<?>, EnergyProperty<?>> properties =
+            new HashMap<>();
 
     /**
      * EnergyDefinitionを生成する。
@@ -36,8 +37,10 @@ public abstract class EnergyDefinition {
      * @throws IllegalArgumentException 各引数が不正な場合。不正条件は各パラメータ説明参照。エラーコード:[MF-ENERGY-007], [MF-ENERGY-019]
      */
     protected EnergyDefinition(String name, EnergyUnit unit) {
-        if (name == null || name.isBlank()) throw new IllegalArgumentException("[MF-ENERGY-007] Energy name cannot be null or blank");
-        if (unit == null) throw new IllegalArgumentException("[MF-ENERGY-019] Energy unit cannot be null");
+        if (name == null || name.isBlank())
+            throw new IllegalArgumentException("[MF-ENERGY-007] Energy name cannot be null or blank");
+        if (unit == null)
+            throw new IllegalArgumentException("[MF-ENERGY-019] Energy unit cannot be null");
 
         this.name = name;
         this.unit = unit;
@@ -57,8 +60,10 @@ public abstract class EnergyDefinition {
      */
     protected final <T> void registerProperty(EnergyProperty<T> property){
 
-        if (property == null) throw new IllegalArgumentException("[MF-ENERGY-013] Property cannot be null");
-        if (properties.putIfAbsent(property.type(), property) != null) throw new IllegalArgumentException("[MF-ENERGY-014] Property type is already registered: " + property.type().id());
+        if (property == null)
+            throw new IllegalArgumentException("[MF-ENERGY-013] Property cannot be null");
+        if (properties.putIfAbsent(property.type(), property) != null)
+            throw new IllegalArgumentException("[MF-ENERGY-014] Property type is already registered: " + property.type().id());
     }
 
     /**
@@ -70,7 +75,8 @@ public abstract class EnergyDefinition {
      * @throws IllegalArgumentException typeがnullの場合。エラーコード:[MF-ENERGY-015]
      */
     public final <T> Optional<T> getPropertyValue(EnergyPropertyType<T> type){
-        if (type == null) throw new IllegalArgumentException("[MF-ENERGY-015] Property type cannot be null");
+        if (type == null)
+            throw new IllegalArgumentException("[MF-ENERGY-015] Property type cannot be null");
 
         EnergyProperty<?> property = properties.get(type);
         if (property == null) return Optional.empty();

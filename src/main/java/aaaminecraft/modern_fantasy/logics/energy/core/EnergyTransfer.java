@@ -30,8 +30,10 @@ public final class EnergyTransfer {
             EnergyContainer target,
             double requestedAmount
     ) {
-        if (source == null || target == null) throw new IllegalArgumentException("[MF-ENERGY-031] Source and target cannot be null.");
-        if (!Double.isFinite(requestedAmount) || requestedAmount < 0.0) throw new IllegalArgumentException("[MF-ENERGY-032] Requested transfer amount must be finite and non-negative.");
+        if (source == null || target == null)
+            throw new IllegalArgumentException("[MF-ENERGY-031] Source and target cannot be null.");
+        if (!Double.isFinite(requestedAmount) || requestedAmount < 0.0)
+            throw new IllegalArgumentException("[MF-ENERGY-032] Requested transfer amount must be finite and non-negative.");
         if (!source.getDefinition().getClass().equals(
                 target.getDefinition().getClass()
         )) throw new IllegalArgumentException("[MF-ENERGY-033] Cannot transfer between different energy type.");

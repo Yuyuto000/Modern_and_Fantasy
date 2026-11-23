@@ -137,13 +137,16 @@ public class EnergyContainer {
     }
 
     public void setAmount(double amount) {
-        if (!Double.isFinite(amount) || amount < 0.0) throw new IllegalArgumentException("[MF-ENERGY-038] Amount must be a finite non-negative value.");
-        if (amount > capacity) throw new IllegalArgumentException("[MF-ENERGY-039] Amount cannot exceed container capacity.");
+        if (!Double.isFinite(amount) || amount < 0.0)
+            throw new IllegalArgumentException("[MF-ENERGY-038] Amount must be a finite non-negative value.");
+        if (amount > capacity)
+            throw new IllegalArgumentException("[MF-ENERGY-039] Amount cannot exceed container capacity.");
         this.amount = amount;
     }
 
     private void validateEnergy(EnergyAmount energy){
-        if (energy == null) throw new IllegalArgumentException("[MF-ENERGY-029] Energy cannot be null.");
+        if (energy == null)
+            throw new IllegalArgumentException("[MF-ENERGY-029] Energy cannot be null.");
         if (!definition.getClass().equals(
                 energy.definition().getClass()
         )) throw new IllegalArgumentException("[MF-ENERGY-030] Energy type does not match container definition.");

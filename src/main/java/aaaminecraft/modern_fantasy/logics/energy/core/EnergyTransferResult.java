@@ -34,9 +34,12 @@ public record EnergyTransferResult(
 
         double tolerance = Math.max(1.0, extractedAmount) * 1.0E-9;
 
-        if (extractedAmount > requestedAmount +  tolerance) throw new IllegalArgumentException("[MF=ENERGY-035] Extracted amount cannot exceed requested amount.");
-        if (receivedAmount > extractedAmount + tolerance) throw new IllegalArgumentException("[MF-ENERGY-036] Received amount cannot exceed extracted amount.");
-        if (Math.abs(extractedAmount - receivedAmount - lossAmount) > tolerance) throw new IllegalArgumentException("[MF-ENERGY-037] Transfer loss does not match the extracted and received amounts.");
+        if (extractedAmount > requestedAmount +  tolerance)
+            throw new IllegalArgumentException("[MF=ENERGY-035] Extracted amount cannot exceed requested amount.");
+        if (receivedAmount > extractedAmount + tolerance)
+            throw new IllegalArgumentException("[MF-ENERGY-036] Received amount cannot exceed extracted amount.");
+        if (Math.abs(extractedAmount - receivedAmount - lossAmount) > tolerance)
+            throw new IllegalArgumentException("[MF-ENERGY-037] Transfer loss does not match the extracted and received amounts.");
     }
 
     /**

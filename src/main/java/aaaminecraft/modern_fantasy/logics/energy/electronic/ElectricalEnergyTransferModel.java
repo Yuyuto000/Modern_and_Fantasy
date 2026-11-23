@@ -43,8 +43,10 @@ public class ElectricalEnergyTransferModel implements EnergyTransferModel {
     ) {
         Objects.requireNonNull(source, "Source cannot be null");
 
-        if (!(source.getDefinition() instanceof ElectricalEnergyDefinition)) throw new IllegalArgumentException("Source must contain electrical energy.");
-        if (target == null || !(target.getDefinition() instanceof ElectricalEnergyDefinition)) throw new IllegalArgumentException("Target must contain electrical energy.");
+        if (!(source.getDefinition() instanceof ElectricalEnergyDefinition))
+            throw new IllegalArgumentException("Source must contain electrical energy.");
+        if (target == null || !(target.getDefinition() instanceof ElectricalEnergyDefinition))
+            throw new IllegalArgumentException("Target must contain electrical energy.");
 
         return basicModel.transfer(source, target, requestedAmount, context);
     }
