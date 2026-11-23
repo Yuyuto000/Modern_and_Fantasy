@@ -5,11 +5,43 @@ import aaaminecraft.modern_fantasy.logics.energy.core.EnergyDefinition;
 import aaaminecraft.modern_fantasy.logics.energy.core.EnergyPortAccess;
 import aaaminecraft.modern_fantasy.logics.energy.core.EnergyPortManager;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
+/**
+ * <h1>MachineBlockEntityクラス</h1>
+ *
+ * すべての機械BlockEntityの共通基盤となる抽象クラス。
+ *
+ * <p>
+ *     機械の稼働状況、エネルギー保持、エネルギーポート管理、
+ *     及び機械データの保存・復元を担当する。
+ * </p>
+ *
+ * <p>
+ *     発電処理やエネルギー消費処理など、機械固有の動作は
+ *     継承先のクラスで実装する。
+ * </p>
+ *
+ * <p>
+ *     このクラスはEnergyPortAccessを実装し、
+ *     エネルギーネットワークとの接続を可能にする。
+ * </p>
+ */
 public abstract class MachineBlockEntity extends BlockEntity implements EnergyPortAccess {
+
+    /**
+     * NBT保存キー:機械の稼働状態。
+     */
+    private static final String TAG_MACHINE_ENABLED = "machine_enabled";
+
+    /**
+     * NBT保存キー:エネルギー保有量。
+     */
+    private static final String TAG_ENERGY_AMOUNT = "energy_amount";
 
     /**
      * 機械の稼働状態。
@@ -113,5 +145,45 @@ public abstract class MachineBlockEntity extends BlockEntity implements EnergyPo
     @Override
     public EnergyPortManager getEnergyPortManager() {
         return energyPortManager;
+    }
+
+    /**
+     * 機械固有のデータをNBTに保存する。
+     *
+     * @param tag 保存先NBT
+     */
+    @Override
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+
+        tag.putBoolean(TAG_MACHINE_ENABLED, machineState.isEnabled());
+        tag.putDouble(TAG_ENERGY_AMOUNT, energyContainer.getAmount());
+    }
+
+    /**
+     * NBTから機械固有のデータを復元する。
+     *
+     * <p>
+     *     保存データが現在のエネルギー容量を超えている場合は、
+     *     現在の最大容量まで補正する。
+     * </p>
+     *
+     * @param tag 読み込み元NBT
+     */
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+
+        machineState.setEnabled(tag.getBoolean(TAG_MACHINE_ENABLED));
+        double savedAmount = 0.0;
+
+        if (tag.contains(TAG_ENERGY_AMOUNT, Tag.TAG_DOUBLE)) savedAmount = tag.getDouble(TAG_ENERGY_AMOUNT);
+
+        // 不正な値を排除する
+        if (!Double.isFinite(savedAmount) || savedAmount < 0.0) savedAmount = 0.0;
+
+        // 現在の容量を超えないように補正する
+        savedAmount = Math.min(savedAmount, energyContainer.getCapacity());
+        energyContainer.setAmount(savedAmount);
     }
 }
