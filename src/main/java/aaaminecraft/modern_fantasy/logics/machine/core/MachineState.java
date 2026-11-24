@@ -1,6 +1,8 @@
 package aaaminecraft.modern_fantasy.logics.machine.core;
 
 /**
+ * <h1>MachineStateクラス</h1>
+ *
  * 機械の稼働状態を管理するクラス。
  *
  * <p>このクラスは機械がプレイヤーによって有効化されているかどうかを管理する。</p>

@@ -1,9 +1,10 @@
-package aaaminecraft.modern_fantasy.logics.machine.core;
+package aaaminecraft.modern_fantasy.block.blockentity;
 
 import aaaminecraft.modern_fantasy.logics.energy.core.EnergyContainer;
 import aaaminecraft.modern_fantasy.logics.energy.core.EnergyDefinition;
 import aaaminecraft.modern_fantasy.logics.energy.core.EnergyPortAccess;
 import aaaminecraft.modern_fantasy.logics.energy.core.EnergyPortManager;
+import aaaminecraft.modern_fantasy.logics.machine.core.MachineState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
