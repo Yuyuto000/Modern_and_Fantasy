@@ -37,16 +37,14 @@ public class SolarGeneratorBlockEntity extends GeneratorBlockEntity {
     /**
      * 太陽光発電を生成する。
      *
-     * @param type BlockEntityType
      * @param pos 設置位置
      * @param state ブロックの状態
      */
     public SolarGeneratorBlockEntity(
-            BlockEntityType<?> type,
             BlockPos pos,
             BlockState state
     ) {
-        super(type, pos, state, new ElectricalEnergyDefinition(), 10000.0);
+        super(ModBlockEntities.SOLAR_GENERATOR.get(), pos, state, new ElectricalEnergyDefinition(), 10000.0);
     }
 
     /**

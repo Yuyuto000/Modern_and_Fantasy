@@ -1,5 +1,6 @@
 package aaaminecraft.modern_fantasy.block.customs;
 
+import aaaminecraft.modern_fantasy.block.blockentity.ModBlockEntities;
 import aaaminecraft.modern_fantasy.block.blockentity.SolarGeneratorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -45,7 +46,7 @@ public class SolarGeneratorBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new SolarGeneratorBlockEntity(pos, state);
     }
 
     /**
