@@ -1,11 +1,15 @@
 package aaaminecraft.modern_fantasy.item;
 
 import aaaminecraft.modern_fantasy.MainEntrance;
+import aaaminecraft.modern_fantasy.item.customs.MachineModuleItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Set;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
@@ -34,6 +38,15 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> QUANTUM_COMPUTATION_CORE = ITEMS.register("quantum_core", //done
             () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> EXCAVATION_MODULE = ITEMS.register("excavation_module",
+            () -> new MachineModuleItem(new Item.Properties(), Set.of(new ResourceLocation(MainEntrance.MODID, "mechanical_crafter"))));
+    public static final RegistryObject<Item> SMELTING_MODULE = ITEMS.register("smelting_module",
+            () -> new MachineModuleItem(new Item.Properties(), Set.of(new ResourceLocation(MainEntrance.MODID, "mechanical_crafter"))));
+    public static final RegistryObject<Item> SCIENTIFIC_PROCESSING_MODULE = ITEMS.register("scientific_processing_module",
+            () -> new MachineModuleItem(new Item.Properties(), Set.of(new ResourceLocation(MainEntrance.MODID, "mechanical_crafter"))));
+    public static final RegistryObject<Item> METALWORKING_MODULE = ITEMS.register("metalworking_module",
+            () ->  new MachineModuleItem(new Item.Properties(), Set.of(new ResourceLocation(MainEntrance.MODID, "mechanical_crafter"))));
+
     // 魔術アイテム系
     public static final RegistryObject<Item> MAGICANIUM =  ITEMS.register("magicanium", //done
             () -> new Item(new Item.Properties()));
