@@ -30,16 +30,19 @@ public class ModBlockEntities {
                     MainEntrance.MODID
             );
 
-    /**
-     * 太陽光発電機のBlockEntityType。
-     *
-     * SolarGeneratorBlockとSolarGeneratorBlockEntityを紐付ける。
-     */
     public static final RegistryObject<BlockEntityType<SolarGeneratorBlockEntity>> SOLAR_GENERATOR =
             BLOCK_ENTITIES.register("solar_generator",
                     () -> BlockEntityType.Builder.of(
                             SolarGeneratorBlockEntity::new,
                             ModBlocks.SOLAR_GENERATOR.get()
+                    ).build(null)
+            );
+
+    public static final RegistryObject<BlockEntityType<MechanicalCrafterBlockEntity>> MECHANICAL_CRAFTER =
+            BLOCK_ENTITIES.register("mechanical_crafter",
+                    () -> BlockEntityType.Builder.of(
+                            MechanicalCrafterBlockEntity::new,
+                            ModBlocks.MECHANICAL_CRAFTER.get()
                     ).build(null)
             );
     /**
